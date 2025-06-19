@@ -5,9 +5,43 @@ import random
 app = Flask(__name__)
 app.secret_key = "your_secret_key_here"  # 替換為更安全的 key
 
+#避免某些瀏覽器 session 不保存
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+
+
+
 # 首頁：出題
 @app.route("/")
 def index():
+
+   # 每次進入新一題才重設
+    if "current_pokemon" not in session or request.args.get("new") == "1":
+        session["guess_count"] = 0
+
+    type_translation = {
+        "normal": "一般",
+        "fire": "火",
+        "water": "水",
+        "electric": "電",
+        "grass": "草",
+        "ice": "冰",
+        "fighting": "格鬥",
+        "poison": "毒",
+        "ground": "地面",
+        "flying": "飛行",
+        "psychic": "超能力",
+        "bug": "蟲",
+        "rock": "岩石",
+        "ghost": "幽靈",
+        "dragon": "龍",
+        "dark": "惡",
+        "steel": "鋼",
+        "fairy": "妖精"
+    }
+
+
     # 隨機選擇一隻寶可夢
     pokemon_id = random.randint(1, 152)
     api_url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
@@ -34,7 +68,13 @@ def index():
     pokemon_info = {
         "id": data["id"],
         "name": data["name"],
-        "types": [t["type"]["name"] for t in data["types"]],
+        "types": [
+            {
+                "en": t["type"]["name"],
+                "zh": type_translation.get(t["type"]["name"], t["type"]["name"])
+            }
+            for t in data["types"]
+        ],
         "height": data["height"],
         "weight": data["weight"],
         "image": data["sprites"]["front_default"],
@@ -56,18 +96,30 @@ def guess():
     chinese_name = pokemon.get("chinese_name", "").strip()
 
     correct = False
-    if user_guess == english_name:
-        correct = True
-    elif user_guess == chinese_name.lower():
-        correct = True
+    guess_count = session.get("guess_count", 0)
 
-    return render_template("result.html", correct=correct, answer=pokemon)
+    if user_guess == english_name or user_guess == chinese_name.lower():
+        correct = True
+        total_guesses = guess_count + 1
+    else:
+        session["guess_count"] = guess_count + 1
+        total_guesses = session["guess_count"]
+
+    return render_template("result.html",
+                           correct=correct,
+                           answer=pokemon,
+                           guess_count=session.get("guess_count", 0),
+                           total_guesses=total_guesses)
+
+
 
 
 # 再來一題
 @app.route("/restart")
 def restart():
+    session["guess_count"] = 0
     return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

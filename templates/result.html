@@ -12,8 +12,25 @@
     <h2>可惜猜錯了！正確答案是 {{ answer.chinese_name }}({{ answer.name.title() }})。</h2>
     {% endif %}
     <img src="{{ answer.image }}" alt="{{ answer.name }}">
+
+    {% if not correct %}
+    <p>你已經猜了 {{ guess_count }} 次了！</p>
+    {% else %}
+    <p>你總共猜了 {{ total_guesses }} 次才答對！</p>
+    {% endif %}
+
+
     <br><br>
-    <a href="/restart">再來一題</a>
+
+    {% if not correct %}
+        <a href="/">繼續猜</a> <!-- 不帶參數，就不會重置也不會換題 -->
+        &nbsp;&nbsp;
+        <a href="/?new=1">我放棄，換一題</a> <!-- 換新題並重置猜錯次數 -->
+    {% else %}
+        <a href="/?new=1">再來一題</a> <!-- 猜對的情況直接換題 -->
+    {% endif %}
+
+
 </body>
 
 </html>

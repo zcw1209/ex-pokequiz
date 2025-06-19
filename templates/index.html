@@ -7,9 +7,19 @@
 
 <body>
     <h1>猜猜這是誰？</h1>
+
+    {% if session.get("guess_count", 0) > 0 %}
+    <p>你已經猜了 {{ session.get("guess_count") }} 次了！繼續努力！</p>
+    {% endif %}
+
+
     <p>提示：</p>
     <ul>
-        <li>屬性：{{ info.types | join(", ") }}</li>
+        <li>屬性：
+            {% for t in info.types %}
+                {{ t.zh }} ({{ t.en }}) {% if not loop.last %}、{% endif %}
+            {% endfor %}
+        </li>
         <li>身高：{{ '%.1f' % (info.height * 0.1) }} 公尺</li>
         <li>體重：{{ '%.1f' % (info.weight * 0.1) }} 公斤</li>
     </ul>
