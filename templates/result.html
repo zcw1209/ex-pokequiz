@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>猜謎結果</title>
+</head>
+
+<body>
+    {% if correct %}
+    <h2>恭喜你答對了！這是 {{ answer.name.title() }}！</h2>
+    {% else %}
+    <h2>可惜猜錯了！正確答案是 {{ answer.name.title() }}。</h2>
+    {% endif %}
+    <img src="{{ answer.image }}" alt="{{ answer.name }}">
+    <br><br>
+    <a href="/restart">再來一題</a>
+</body>
+
+</html>

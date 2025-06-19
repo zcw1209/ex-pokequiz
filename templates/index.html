@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>寶可夢猜謎遊戲</title>
+</head>
+
+<body>
+    <h1>猜猜這是誰？</h1>
+    <p>提示：</p>
+    <ul>
+        <li>屬性：{{ info.types | join(", ") }}</li>
+        <li>身高：{{ info.height }}</li>
+        <li>體重：{{ info.weight }}</li>
+    </ul>
+
+    <form action="/guess" method="POST">
+        <input type="text" name="guess" placeholder="請輸入寶可夢英文名稱">
+        <button type="submit">猜猜看！</button>
+    </form>
+</body>
+
+</html>
