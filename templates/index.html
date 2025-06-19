@@ -10,8 +10,8 @@
     <p>提示：</p>
     <ul>
         <li>屬性：{{ info.types | join(", ") }}</li>
-        <li>身高：{{ info.height }}</li>
-        <li>體重：{{ info.weight }}</li>
+        <li>身高：{{ '%.1f' % (info.height * 0.1) }} 公尺</li>
+        <li>體重：{{ '%.1f' % (info.weight * 0.1) }} 公斤</li>
     </ul>
 
     <p>你要猜的是哪一隻寶可夢？（可輸入中或英文名稱）</p>
