@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}我的寶可夢圖鑑{% endblock %}
+{% block content %}
+<h2 class="mb-4 text-center">我收服到的寶可夢圖鑑</h2>
+
+{% if pokemons %}
+    <div class="row">
+        {% for p in pokemons %}
+        <div class="col-6 col-sm-4 col-md-3 mb-4 text-center">
+            <img src="{{ p.image_url }}" alt="{{ p.name_en }}" width="80" class="mb-2">
+            <div><strong>{{ p.name_zh }}</strong> ({{ p.name_en.title() }})</div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-center">你還沒收錄任何寶可夢，快去挑戰吧！</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+<!-- 修正後的登入頁面 -->
+{% extends "auth_base.html" %}
+{% block content %}
+
+<div class="container-login100">
+    <div class="wrap-login100">
+        <form class="login100-form validate-form" method="post" action="{{ url_for('login') }}">
+            <span class="login100-form-title p-b-34 p-t-27">登入</span>
+
+            <div class="wrap-input100 validate-input" data-validate="請輸入帳號">
+                <input class="input100" type="text" name="username" placeholder="帳號" value="{{ temp_username }}">
+                <span class="focus-input100" data-placeholder="&#xf207;"></span>
+            </div>
+
+            <div class="wrap-input100 validate-input" data-validate="請輸入密碼">
+                <input class="input100" type="password" name="password" placeholder="密碼">
+                <span class="focus-input100" data-placeholder="&#xf191;"></span>
+            </div>
+
+            <div class="contact100-form-checkbox">
+                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                <label class="label-checkbox100" for="ckb1">Remember me</label>
+            </div>
+
+            <div class="container-login100-form-btn">
+                <button class="login100-form-btn">登入</button>
+            </div>
+
+            <div class="text-center p-t-90">
+                <a class="txt1" href="{{ url_for('register') }}">還沒有帳號？註冊一個</a>
+            </div>
+            <a href="/">回首頁，直接遊戲</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
