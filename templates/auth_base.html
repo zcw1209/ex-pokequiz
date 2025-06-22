@@ -1,0 +1,135 @@
+<!-- 修正後的 auth_base.html -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}寶可夢猜謎遊戲{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- 網站 icon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+
+    <!-- Font Awesome 圖示 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+
+    <!-- Material Design Iconic Font -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+
+    <!-- 進階動畫與 UI 元件 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+
+    <!-- 自訂樣式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <style>
+    .masked-image-container {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.masked-image {
+    width: 150px;
+    height: auto;
+    filter: blur(3px) brightness(0.6);
+    transform: scale(1.1);
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+
+
+    /* 重置所有邊距和填充 */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    
+    .auth-container {
+        width: 100vw;
+        height: 100vh;
+        background-image: url('{{ url_for('static', filename='images/bg-01.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    
+    /* Flash 訊息樣式 - 固定在頂部 */
+    .flash-messages {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: 90%;
+        max-width: 500px;
+    }
+    
+    /* 確保容器不會被其他元素影響 */
+    .container-login100 {
+        background: none !important;
+        position: relative;
+        z-index: 1;
+    }
+    </style>
+</head>
+<body>
+    <!-- Flash 訊息區 - 固定位置 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="auth-container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+
+    <!-- Bootstrap Bundle (含 Popper) -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Animsition 動畫 -->
+    <script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js') }}"></script>
+
+    <!-- 選擇器與日期選擇插件 -->
+    <script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}"></script>
+
+    <!-- 主要 JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

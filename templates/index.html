@@ -1,64 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% block title %}我是誰{% endblock %}
+{% block content %}
+<h2 class="mb-4 text-center">猜猜，這隻寶可夢是誰？</h2>
 
-<head>
-    <title>寶可夢猜謎遊戲</title>
-    <style>
-        .container {
-            position: relative;
-            width: 400px;  /* 根據背景圖大小調整 */
-            height: auto;
-        }
+<div class="text-center mb-4">
+    <img src="{{ info.image }}" alt="寶可夢圖片" style="filter: brightness(0) contrast(1.5); width: 200px;">
+</div>
 
-        .background {
-            width: 100%;
-            display: block;
-        }
-
-        .pokemon-shadow {
-            position: absolute;
-            top: 48%;       /* 調整位置 */
-            left: 30%;
-            transform: translate(-50%, -50%);
-            width: 150px;
-            filter: brightness(0) contrast(1.5);  /* 黑影效果 */
-        }
-    </style>
-
-</head>
-
-<body>
-    <h1>猜猜我是誰？</h1>
-
-    {% if session.get("guess_count", 0) > 0 %}
-    <p>你已經猜了 {{ session.get("guess_count") }} 次了！繼續努力！</p>
-    {% endif %}
-
-    <div class="container">
-        <!-- 背景圖 -->
-        <img src="{{ url_for('static', filename='images/background1.jpg') }}" alt="背景" class="background">
-
-        <!-- 遮罩寶可夢圖（來自 API） -->
-        <img src="{{ info.image }}" alt="謎題寶可夢" class="pokemon-shadow">
-    </div>
-
-    <p>提示：</p>
-    <ul>
-        <li>屬性：
-            {% for t in info.types %}
-                {{ t.zh }} ({{ t.en }}) {% if not loop.last %}、{% endif %}
-            {% endfor %}
-        </li>
-        <li>身高：{{ '%.1f' % (info.height * 0.1) }} 公尺</li>
-        <li>體重：{{ '%.1f' % (info.weight * 0.1) }} 公斤</li>
-    </ul>
-
-    <p>你要猜的是哪一隻寶可夢？（可輸入中或英文名稱）</p>
-
-    <form action="/guess" method="POST">
-        <input type="text" name="guess" placeholder="請輸入寶可夢中文或英文名稱">
-        <button type="submit">猜猜看！</button>
-    </form>
-</body>
-
-</html>
+<form method="POST" action="{{ url_for('guess') }}" class="d-flex justify-content-center gap-2">
+    <input type="text" name="guess" class="form-control w-50" placeholder="輸入寶可夢名稱（中或英文）" required>
+    <button type="submit" class="btn btn-primary">猜猜看！</button>
+</form>
+{% endblock %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}寶可夢猜謎遊戲{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 網站 icon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico') }}">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+
+    <!-- Font Awesome 圖示 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+
+    <!-- Material Design Iconic Font -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+
+    <!-- 進階動畫與 UI 元件（依需要保留） -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+
+    <!-- 自訂樣式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<!--===============================================================================================-->
+
+<style>
+.masked-image-container {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.masked-image {
+    width: 150px;
+    height: auto;
+    filter: blur(3px) brightness(0.6);
+    transform: scale(1.1);
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+
+
+</style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">寶可夢猜謎</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    {% if session.get("username") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}">首頁</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('my_pokedex') }}">我的圖鑑</a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">👤 {{ session["username"] }}</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">登出</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">登入</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}">註冊</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- flash 訊息區 -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- 內容區 -->
+    <div class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+
+<!-- Bootstrap Bundle (含 Popper) -->
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Animsition 動畫 -->
+<script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js') }}"></script>
+
+<!-- 選擇器與日期選擇插件（視需要保留） -->
+<script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}"></script>
+
+<!-- 主要 JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
